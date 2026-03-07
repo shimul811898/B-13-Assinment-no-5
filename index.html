@@ -35,14 +35,14 @@
             <h1 class="text-center pt-6 text-2xl font-semibold">GitHub Issues Tracker</h1>
             <p class="text-center text-[#64748B] text-[16px] pb-6">Sign in to manage your issues</p>
             <label for="" class="text-[16px] font-medium pb-2"></label>Username</label><br>
-            <input type="text" class="border p-3 border-w-[100%] border-[#E4E4E7] focus:border-[#E4E4E7] outline-none"
+            <input type="text" id="Username" class="border p-3 border-w-full border-[#E4E4E7] focus:border-[#E4E4E7] outline-none"
                 placeholder="Enter Username">
             <p class="pt-2 text-[14px] text-[#4A00FF] pb-4">Default: admin</p>
             <label for="" class="text-[16px] font-medium  pb-2">Password</label><br>
-            <input type="text" class="border p-3 border-w-[100%] border-[#E4E4E7] focus:border-[#E4E4E7] outline-none"
+            <input type="text" id="Password" class="border p-3 border-w-full border-[#E4E4E7] focus:border-[#E4E4E7] outline-none"
                 placeholder="Enter Password">
             <p class="pt-2 text-[14px] text-[#4A00FF] pb-4">Default: admin123</p>
-            <button class="text-[16px] font-semibold text-[#FFFFFF] bg-[#4A00FF] text-center w-[97%] p-4">Sign
+            <button id="login-btn" onclick="login()" class="text-[16px] font-semibold text-[#FFFFFF] bg-[#4A00FF] text-center w-[97%] p-4">Sign
                 In</button>
             <div class="flex items-center">
                 <div class="flex-grow h-px bg-gray-300"></div>
