@@ -34,12 +34,14 @@ function toggleStyle(id) {
 }
 
 const navigationMenu = document.getElementById("navigationMenu");
+const loadingSpinner=document.getElementById("loadingSpinner")
 
 async function loadNavigation() {
-
+    loadingSpinner.classList.remove("hidden");
+    loadingSpinner.classList.add("flex");
     const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
     const data = await res.json();
-
+    loadingSpinner.classList.add("hidden");
     displayNavigation(data.data);
 
 }
@@ -47,7 +49,6 @@ async function loadNavigation() {
 function displayNavigation(navigation) {
 
     navigation.forEach(menu => {
-
         const card = document.createElement("div");
 
         let borderColor;
@@ -55,7 +56,7 @@ function displayNavigation(navigation) {
         if (menu.priority === "high" || menu.priority === "medium") {
             borderColor = "border-green-500";
             Img = "assets/Open-Status.png";
-            
+
         }
         else {
             borderColor = "border-purple-500";
@@ -74,8 +75,7 @@ function displayNavigation(navigation) {
 
             <h3 class="font-semibold text-[14px] mt-3">${menu.title}</h3>
 
-           <p class="text-[#64748B] text-[12px] line-clamp-2">The navigation menu doesn't collapse properly on mobile
-                devices...</p>
+           <p class="text-[#64748B] text-[12px] line-clamp-2">${menu.description}</p>
                 
               <div class="flex gap-2 py-3">
                 <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center"><i
