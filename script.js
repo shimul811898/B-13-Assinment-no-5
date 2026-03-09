@@ -13,8 +13,6 @@ const login = () => {
     }
 };
 
-
-
 let allIssues = [];
 //btn toggle
 function toggleStyle(id) {
@@ -23,38 +21,38 @@ function toggleStyle(id) {
     const OpenBtn = document.getElementById("OpenBtn");
     const ClosedBtn = document.getElementById("ClosedBtn");
 
-    // reset style
     [allBtn, OpenBtn, ClosedBtn].forEach(btn => {
         btn.classList.add('bg-[#FFFFFF]', 'text-[#64748B]');
         btn.classList.remove('bg-[#4A00FF]', 'text-[#FFFFFF]');
     });
 
-    // active btn
     const activeBtn = document.getElementById(id);
     activeBtn.classList.remove('bg-[#FFFFFF]', 'text-[#64748B]');
     activeBtn.classList.add('bg-[#4A00FF]', 'text-[#FFFFFF]');
 
     if (id === "allBtn") {
         displayNavigation(allIssues);
+        Count(allIssues);
     }
 
     else if (id === "OpenBtn") {
         const openIssues = allIssues.filter(issue =>
             issue.priority === "high" || issue.priority === "medium"
         );
+
         displayNavigation(openIssues);
+        Count(openIssues);
     }
 
     else if (id === "ClosedBtn") {
         const closedIssues = allIssues.filter(issue =>
             issue.priority === "low"
         );
+
         displayNavigation(closedIssues);
+        Count(closedIssues);
     }
-
 }
-
-
 
 const navigationMenu = document.getElementById("navigationMenu");
 const loadingSpinner = document.getElementById("loadingSpinner");
@@ -68,6 +66,7 @@ async function loadNavigation() {
     loadingSpinner.classList.add("hidden");
     allIssues = (data.data);
     displayNavigation(allIssues);
+    Count(data.data);
 }
 
 function displayNavigation(navigation) {
@@ -129,11 +128,10 @@ function displayNavigation(navigation) {
         `;
 
         navigationMenu.appendChild(card);
+        
 
     });
 }
-
-
 
 async function openModal(menuId) {
 
@@ -220,15 +218,16 @@ loadNavigation();
 // search section
 const searchInput = document.getElementById("searchInput");
 
-searchInput.addEventListener("keyup", function () {
+searchInput.addEventListener("keyup", async function () {
+
     const searchText = searchInput.value;
 
-    fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`)
-        .then(res => res.json())
-        .then(data => {
-            displayIssues(data.data); 
-        });
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`);
+    const data = await res.json();
+
+    displayIssues(data.data);
 });
+
 
 function displayIssues(issues) {
 
@@ -238,38 +237,83 @@ function displayIssues(issues) {
 
         const card = document.createElement("div");
 
+        let borderColor;
+        let Img;
+        let Bg;
+
+        if (issue.priority === "high") {
+            borderColor = "border-green-500";
+            Img = "assets/Open-Status.png";
+            Bg = "text-[#EF4444] bg-[#FEECEC]";
+        }
+
+        else if (issue.priority === "medium") {
+            borderColor = "border-green-500";
+            Img = "assets/Open-Status.png";
+            Bg = "text-[#D97706] bg-[#FFF8DB]";
+        }
+
+        else {
+            borderColor = "border-purple-500";
+            Img = "assets/Closed- Status .png";
+            Bg = "text-[#9CA3AF] bg-[#EEEFF2]";
+        }
+
         card.className = "shadow p-4 border-t-2 border-[#00A96E] rounded-[9px]";
 
         card.innerHTML = `
-        <div class="grid grid-cols-2">
-            <img src="assets/Open-Status.png" alt="">
-            <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
-                ${issue.priority}
+        <div class=""onclick="openModal(${issue.id})">
+            <div class="grid grid-cols-2">
+                <img src="${Img}" alt="">
+                <p class=" ${Bg} text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                    ${issue.priority}
+                </p>
+            </div>
+
+            <h3 class="font-semibold text-[14px] mt-3">${issue.title}</h3>
+
+           <p class="text-[#64748B] text-[12px] line-clamp-2">${issue.description}</p>
+                
+              <div class="flex gap-2 py-3">
+                <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center"><i
+                        class="fa-solid fa-bug"></i> Bug</p>
+                <p class="text-[#D97706] bg-[#FFF8DB] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center"><i
+                        class="fa-solid fa-circle-radiation"></i> help wanted</p>
+            </div>
+            <hr class="border-t-2 border-[#E4E4E7]">
+
+            <p class="text-[12px] text-[#64748B] pt-2">
+                ${issue.id} by ${issue.author || "unknown"}
             </p>
-        </div>
-
-        <h3 class="font-semibold text-[14px] mt-3">${issue.title}</h3>
-
-        <p class="text-[#64748B] text-[12px] line-clamp-2">
-            ${issue.description}
-        </p>
-
-        <div class="flex gap-2 py-3">
-            <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
-                <i class="fa-solid fa-bug"></i> ${issue.type}
-            </p>
-        </div>
-
-        <hr class="border-t-2 border-[#E4E4E7]">
-
-        <p class="text-[12px] text-[#64748B] pt-2">#${issue.id} by ${issue.author}</p>
-        <p class="text-[12px] text-[#64748B] py-2">${issue.createdAt}</p>
+             <p class="text-[12px] text-[#64748B] py-2">1/15/2024</p>
+              </div>
         `;
 
         navigationMenu.appendChild(card);
     });
 }
 
+function Count(issues){
+
+const all = issues.length;
+const open = issues.filter(issue => issue.status === "open").length;
+const closed = issues.filter(issue => issue.status === "closed").length;
+
+document.getElementById("issueCount").innerText = all;
+document.getElementById("open").innerText = open;
+document.getElementById("close").innerText = closed;
+
+}
+
+// const searchText = searchInput.value;
+
+// const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues`);
+// const data = await res.json();
+
+// displayIssues(data.data);
+// updateIssueCount(data.data);
+
+// });
 
 
 
