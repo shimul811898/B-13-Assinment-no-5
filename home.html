@@ -68,7 +68,8 @@
         <div class="flex gap-2">
             <img src="assets/Aperture.png" alt="">
             <div>
-                <h1 class="text-[20px] font-semibold"><span id="issueCount">0</span><span id="open" class=" hidden">0</span><span id="close" class="hidden">0</span>Issues</h1>
+                <h1 class="text-[20px] font-semibold"><span id="issueCount">0</span><span id="open"
+                        class=" hidden">0</span><span id="close" class="hidden">0</span>Issues</h1>
                 <p class="text-[#64748B] text-[16px]">Track and manage your project issues</p>
             </div>
         </div>
@@ -115,86 +116,53 @@
     </section>
 
     <!-- modal -->
-    <!-- <section class="justify-center items-center place-items-center h-screen hidden" id="modal">
-       <div class="shadow p-8">
-         <h1 class="font-bold text-2xl">Fix broken image uploads</h1>
-        <div class="flex gap-2">
-            <p class="text-[#FFFFFF] bg-[#00A96E] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
-                    Opened</p>
-            <p class="text-[#64748B] text-[12px] ">Opened by Fahim Ahmed</p>
-            <p class="text-[#64748B] text-[12px] ">22/02/2026</p>
-        </div>
-        <div class="flex gap-2 py-4">
-            <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center"><i
-                    class="fa-solid fa-bug"></i> Bug</p>
-            <p class="text-[#D97706] bg-[#FFF8DB] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center"><i
-                    class="fa-solid fa-circle-radiation"></i> help wanted</p>
-        </div>
-        <p class="text-[#64748B] text-[12px] line-clamp-2 pb-6">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
-        <div class=" space-y-6 grid grid-cols-2 shadow px-4 bg-[#F8FAFC]">
-            <div class="space-y-2 pt-4">
-                <p class="text-[#64748B] text-[12px] ">Assignee:</p>
-                <p>Fahim Ahmed</p>
-            </div>
-            <div class="space-y-2 pt-4">
-                <p class="text-[#64748B] text-[12px] ">Priority:</p>
-                <p class="text-[#ffffff] bg-[#EF4444] text-[12px] -ml-1 font-medium w-[40%] py-1.5 rounded-[20px] text-center">
-                    High</p>
-            </div>
-        </div>
-       <div class="flex justify-end">
-        <button onclick="closeModal()" class="px-3 py-2 mt-6 text-[#ffffff] bg-[#4A00FF] rounded-[9px] ">Close</button>
-       </div>
-       </div>
+    <section class="justify-center items-center h-screen hidden fixed inset-0" id="modal">
+        <div class="shadow p-8 bg-white rounded-lg">
+            <h1 class="font-bold text-2xl">Fix broken image uploads</h1>
 
-
-    </section> -->
-    <section class="justify-center items-center h-screen hidden fixed inset-0 bg-black/40" id="modal">
-    <div class="shadow p-8 bg-white rounded-lg">
-        <h1 class="font-bold text-2xl">Fix broken image uploads</h1>
-
-        <div class="flex gap-2">
-            <p class="text-white bg-[#00A96E] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
-                Opened
-            </p>
-            <p class="text-[#64748B] text-[12px]">Opened by Fahim Ahmed</p>
-            <p class="text-[#64748B] text-[12px]">22/02/2026</p>
-        </div>
-
-        <div class="flex gap-2 py-4">
-            <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
-                <i class="fa-solid fa-bug"></i> Bug
-            </p>
-            <p class="text-[#D97706] bg-[#FFF8DB] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
-                <i class="fa-solid fa-circle-radiation"></i> help wanted
-            </p>
-        </div>
-
-        <p class="text-[#64748B] text-[12px] line-clamp-2 pb-6">
-            The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.
-        </p>
-
-        <div class="space-y-6 grid grid-cols-2 shadow px-4 bg-[#F8FAFC]">
-            <div class="space-y-2 pt-4">
-                <p class="text-[#64748B] text-[12px]">Assignee:</p>
-                <p>Fahim Ahmed</p>
+            <div class="flex gap-2">
+                <p class="text-white bg-[#00A96E] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                    Opened
+                </p>
+                <p class="text-[#64748B] text-[12px]">Opened by Fahim Ahmed</p>
+                <p class="text-[#64748B] text-[12px]">22/02/2026</p>
             </div>
 
-            <div class="space-y-2 pt-4">
-                <p class="text-[#64748B] text-[12px]">Priority:</p>
-                <p class="text-white bg-[#EF4444] text-[12px] font-medium w-[40%] py-1.5 rounded-[20px] text-center">
-                    High
+            <div class="flex gap-2 py-4">
+                <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                    <i class="fa-solid fa-bug"></i> Bug
+                </p>
+                <p class="text-[#D97706] bg-[#FFF8DB] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                    <i class="fa-solid fa-circle-radiation"></i> help wanted
                 </p>
             </div>
-        </div>
 
-        <div class="flex justify-end">
-            <button onclick="closeModal()" class="px-3 py-2 mt-6 text-white bg-[#4A00FF] rounded-[9px]">
-                Close
-            </button>
+            <p class="text-[#64748B] text-[12px] line-clamp-2 pb-6">
+                The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.
+            </p>
+
+            <div class="space-y-6 grid grid-cols-2 shadow px-4 bg-[#F8FAFC]">
+                <div class="space-y-2 pt-4">
+                    <p class="text-[#64748B] text-[12px]">Assignee:</p>
+                    <p>Fahim Ahmed</p>
+                </div>
+
+                <div class="space-y-2 pt-4">
+                    <p class="text-[#64748B] text-[12px]">Priority:</p>
+                    <p
+                        class="text-white bg-[#EF4444] text-[12px] font-medium w-[40%] py-1.5 rounded-[20px] text-center">
+                        High
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button onclick="closeModal()" class="px-3 py-2 mt-6 text-white bg-[#4A00FF] rounded-[9px]">
+                    Close
+                </button>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <script src="script.js"></script>
 </body>

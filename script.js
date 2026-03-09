@@ -34,13 +34,13 @@ function toggleStyle(id) {
     activeBtn.classList.remove('bg-[#FFFFFF]', 'text-[#64748B]');
     activeBtn.classList.add('bg-[#4A00FF]', 'text-[#FFFFFF]');
 
-      if (id === "allBtn") {
+    if (id === "allBtn") {
         displayNavigation(allIssues);
     }
 
     else if (id === "OpenBtn") {
         const openIssues = allIssues.filter(issue =>
-        issue.priority === "high" || issue.priority === "medium"
+            issue.priority === "high" || issue.priority === "medium"
         );
         displayNavigation(openIssues);
     }
@@ -57,8 +57,8 @@ function toggleStyle(id) {
 
 
 const navigationMenu = document.getElementById("navigationMenu");
-const loadingSpinner=document.getElementById("loadingSpinner");
-const modal=document.getElementById("modal");
+const loadingSpinner = document.getElementById("loadingSpinner");
+const modal = document.getElementById("modal");
 
 async function loadNavigation() {
     loadingSpinner.classList.remove("hidden");
@@ -71,24 +71,31 @@ async function loadNavigation() {
 }
 
 function displayNavigation(navigation) {
-     navigationMenu.innerHTML = "";
+    navigationMenu.innerHTML = "";
     navigation.forEach(menu => {
-        
+
         const card = document.createElement("div");
 
         let borderColor;
         let Img;
+        let priorityBg;
 
-
-        if (menu.priority === "high" || menu.priority === "medium") {
+        if (menu.priority === "high") {
             borderColor = "border-green-500";
             Img = "assets/Open-Status.png";
-    
-
+            priorityBg = "text-[#EF4444] bg-[#FEECEC]";
         }
+
+        else if (menu.priority === "medium") {
+            borderColor = "border-green-500";
+            Img = "assets/Open-Status.png";
+            priorityBg = "text-[#D97706] bg-[#FFF8DB]";
+        }
+
         else {
             borderColor = "border-purple-500";
             Img = "assets/Closed- Status .png";
+            priorityBg = "text-[#9CA3AF] bg-[#EEEFF2]";
         }
 
         card.className = `shadow p-4 border-t-2 ${borderColor} rounded-[9px]  `;
@@ -97,8 +104,8 @@ function displayNavigation(navigation) {
         <div class=""onclick="openModal(${menu.id})">
             <div class="grid grid-cols-2">
                 <img src="${Img}" alt="">
-                <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
-                    ${menu.priority || "High"}
+                <p class=" ${priorityBg} text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                    ${menu.priority}
                 </p>
             </div>
 
@@ -125,16 +132,83 @@ function displayNavigation(navigation) {
 
     });
 }
-function openModal(menuId){
-    console.log(menuId,"menuId");
 
-    const issue = allIssues.find(item => item.id === menuId);
-    console.log(issue);
+
+
+async function openModal(menuId) {
 
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${menuId}`);
+    const data = await res.json();
+    const issueData = data.data;
+
+    let pri;
+
+    if (issueData.priority === "high" || issueData.priority === "medium") {
+        pri = "text-[#EF4444] bg-[#FEECEC]";
+    }
+    else {
+        pri = "text-[#9CA3AF] bg-[#EEEFF2]";
+    }
+
+    modal.innerHTML = `
+        <div class="shadow p-8 bg-white rounded-lg">
+        <h1 class="font-bold text-2xl">${issueData.title}</h1>
+
+        <div class="flex gap-2">
+            <p class="text-white bg-[#00A96E] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                ${issueData.status}
+            </p>
+
+            <p class="text-[#64748B] text-[12px] pt-1">
+                <i class="fas fa-circle"></i> ${issueData.status} by ${issueData.author}
+            </p>
+
+            <p class="text-[#64748B] text-[12px] pt-1">
+                <i class="fas fa-circle"></i> 22/02/2026
+            </p>
+        </div>
+
+        <div class="flex gap-2 py-4">
+            <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                <i class="fa-solid fa-bug"></i> Bug
+            </p>
+
+            <p class="text-[#D97706] bg-[#FFF8DB] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                <i class="fa-solid fa-circle-radiation"></i> help wanted
+            </p>
+        </div>
+
+        <p class="text-[#64748B] text-[12px] pb-6">
+            ${issueData.description}
+        </p>
+
+        <div class="space-y-6 grid grid-cols-2 shadow px-4 bg-[#F8FAFC]">
+            <div class="space-y-2 pt-4">
+                <p class="text-[#64748B] text-[12px]">Assignee:</p>
+                <p>${issueData.author}</p>
+            </div>
+
+            <div class="space-y-2 pt-4">
+                <p class="text-[#64748B] text-[12px]">Priority:</p>
+                <p class="${pri} text-[12px] font-medium w-[40%] py-1.5 rounded-[20px] text-center">
+                    ${issueData.priority || "high"}
+                </p>
+            </div>
+        </div>
+
+        <div class="flex justify-end">
+            <button onclick="closeModal()" class="px-3 py-2 mt-6 text-white bg-[#4A00FF] rounded-[9px]">
+                Close
+            </button>
+        </div>
+    </div>
+    `;
 }
-function closeModal(){
+
+function closeModal() {
     modal.classList.add("hidden");
     modal.classList.remove("flex");
 }
