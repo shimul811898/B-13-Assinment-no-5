@@ -58,6 +58,7 @@ const navigationMenu = document.getElementById("navigationMenu");
 const loadingSpinner = document.getElementById("loadingSpinner");
 const modal = document.getElementById("modal");
 
+//load spinner
 async function loadNavigation() {
     loadingSpinner.classList.remove("hidden");
     loadingSpinner.classList.add("flex");
@@ -69,6 +70,7 @@ async function loadNavigation() {
     Count(data.data);
 }
 
+//all card
 function displayNavigation(navigation) {
     navigationMenu.innerHTML = "";
     navigation.forEach(menu => {
@@ -226,9 +228,10 @@ searchInput.addEventListener("keyup", async function () {
     const data = await res.json();
 
     displayIssues(data.data);
+    Count(data.data);
 });
 
-
+//modal section 
 function displayIssues(issues) {
 
     navigationMenu.innerHTML = "";
@@ -293,6 +296,7 @@ function displayIssues(issues) {
     });
 }
 
+//count function setup
 function Count(issues){
 
 const all = issues.length;
