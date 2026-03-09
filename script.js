@@ -217,5 +217,59 @@ function closeModal() {
 loadNavigation();
 
 
+// search section
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function () {
+    const searchText = searchInput.value;
+
+    fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`)
+        .then(res => res.json())
+        .then(data => {
+            displayIssues(data.data); 
+        });
+});
+
+function displayIssues(issues) {
+
+    navigationMenu.innerHTML = "";
+
+    issues.forEach(issue => {
+
+        const card = document.createElement("div");
+
+        card.className = "shadow p-4 border-t-2 border-[#00A96E] rounded-[9px]";
+
+        card.innerHTML = `
+        <div class="grid grid-cols-2">
+            <img src="assets/Open-Status.png" alt="">
+            <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                ${issue.priority}
+            </p>
+        </div>
+
+        <h3 class="font-semibold text-[14px] mt-3">${issue.title}</h3>
+
+        <p class="text-[#64748B] text-[12px] line-clamp-2">
+            ${issue.description}
+        </p>
+
+        <div class="flex gap-2 py-3">
+            <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
+                <i class="fa-solid fa-bug"></i> ${issue.type}
+            </p>
+        </div>
+
+        <hr class="border-t-2 border-[#E4E4E7]">
+
+        <p class="text-[12px] text-[#64748B] pt-2">#${issue.id} by ${issue.author}</p>
+        <p class="text-[12px] text-[#64748B] py-2">${issue.createdAt}</p>
+        `;
+
+        navigationMenu.appendChild(card);
+    });
+}
+
+
 
 
