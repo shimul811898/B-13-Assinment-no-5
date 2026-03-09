@@ -14,6 +14,8 @@ const login = () => {
 };
 
 
+
+let allIssues = [];
 //btn toggle
 function toggleStyle(id) {
 
@@ -31,10 +33,32 @@ function toggleStyle(id) {
     const activeBtn = document.getElementById(id);
     activeBtn.classList.remove('bg-[#FFFFFF]', 'text-[#64748B]');
     activeBtn.classList.add('bg-[#4A00FF]', 'text-[#FFFFFF]');
+
+      if (id === "allBtn") {
+        displayNavigation(allIssues);
+    }
+
+    else if (id === "OpenBtn") {
+        const openIssues = allIssues.filter(issue =>
+        issue.priority === "high" || issue.priority === "medium"
+        );
+        displayNavigation(openIssues);
+    }
+
+    else if (id === "ClosedBtn") {
+        const closedIssues = allIssues.filter(issue =>
+            issue.priority === "low"
+        );
+        displayNavigation(closedIssues);
+    }
+
 }
 
+
+
 const navigationMenu = document.getElementById("navigationMenu");
-const loadingSpinner=document.getElementById("loadingSpinner")
+const loadingSpinner=document.getElementById("loadingSpinner");
+const modal=document.getElementById("modal");
 
 async function loadNavigation() {
     loadingSpinner.classList.remove("hidden");
@@ -42,20 +66,24 @@ async function loadNavigation() {
     const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
     const data = await res.json();
     loadingSpinner.classList.add("hidden");
-    displayNavigation(data.data);
-
+    allIssues = (data.data);
+    displayNavigation(allIssues);
 }
 
 function displayNavigation(navigation) {
-
+     navigationMenu.innerHTML = "";
     navigation.forEach(menu => {
+        
         const card = document.createElement("div");
 
         let borderColor;
+        let Img;
+
 
         if (menu.priority === "high" || menu.priority === "medium") {
             borderColor = "border-green-500";
             Img = "assets/Open-Status.png";
+    
 
         }
         else {
@@ -63,9 +91,10 @@ function displayNavigation(navigation) {
             Img = "assets/Closed- Status .png";
         }
 
-        card.className = `shadow p-4 border-t-2 ${borderColor} rounded-[9px]`;
+        card.className = `shadow p-4 border-t-2 ${borderColor} rounded-[9px]  `;
 
         card.innerHTML = `
+        <div class=""onclick="openModal(${menu.id})">
             <div class="grid grid-cols-2">
                 <img src="${Img}" alt="">
                 <p class="text-[#EF4444] bg-[#FEECEC] text-[12px] font-medium px-4 py-1.5 rounded-[20px] text-center">
@@ -89,11 +118,30 @@ function displayNavigation(navigation) {
                 ${menu.id} by ${menu.author || "unknown"}
             </p>
              <p class="text-[12px] text-[#64748B] py-2">1/15/2024</p>
+              </div>
         `;
 
         navigationMenu.appendChild(card);
 
     });
 }
+function openModal(menuId){
+    console.log(menuId,"menuId");
+
+    const issue = allIssues.find(item => item.id === menuId);
+    console.log(issue);
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+}
+function closeModal(){
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+}
+
 
 loadNavigation();
+
+
+
+
